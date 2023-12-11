@@ -34,6 +34,7 @@ const gallery = document.getElementById("gallery");
 const galleryForm = document.querySelector("#galleryForm");
 const imageLinkInput = document.getElementById("imageLink");
 const imageNameInput = document.querySelector("#imageName");
+const removeImageBtn = document.querySelector('.removeImageBtnWrapper .navButton')
 
 function fillGallery() {
   imageList.reverse().forEach((img) => {
@@ -65,7 +66,25 @@ const addNewImage = () => {
   gallery.prepend(li);
 }
 
-
+const removeImage = () => {
+  if(imageList.length > 0) {
+    imageList.shift()
+    gallery.innerHTML = ''
+    imageList.reverse().forEach((img) => {
+      const li = document.createElement("li");
+      li.innerHTML = `  <div class="card" >
+      <aside class="imageWrapper">
+        <img src="${img.imageLink}" alt="image" />
+      </aside>
+      <span class="imageDetail">
+        ${img.imageName}
+      </span>
+    </div>`;
+  
+      gallery.appendChild(li);
+    });
+  } 
+}
 galleryForm.addEventListener('submit',  (event) => {
   event.preventDefault();
   const imageNameValue = imageNameInput.value;
@@ -79,5 +98,11 @@ galleryForm.addEventListener('submit',  (event) => {
   addNewImage()
 })
 
+removeImageBtn.addEventListener('click', (event) =>{
+
+    console.log('deleting action triggered')
+    removeImage();
+  
+})
 
 fillGallery();
